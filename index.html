@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Add Points</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+      integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+      crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+      integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+      crossorigin=""></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.5/papaparse.min.js"></script>
+
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial;
+      }
+      #map {
+        width: 100vw;
+        height: 100vh;
+      }
+      #gform {
+        position: absolute;
+        bottom: 40px;
+        left: calc(50% - 30px);
+        z-index: 999;
+        display: block;
+      }
+      #gform input {
+        font-size: 35px;
+        background: blue;
+        border: 0;
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div id="map"></div>
+
+    <form id="gform" method="POST" action="https://script.google.com/macros/s/AKfycbwJV4fQJ6Z5hxjT9p6tZscaEUIAoCbqp4Puirc-aTDA60BqANr4/exec">
+      <input type="submit" value="Submit">
+    </form>
+
+    <script>
+
+      $.urlParam = function(name){
+      	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      	return results[1] || 0;
+      }
+
+      var trinCoords = [41.7479, -72.6903];
+      var map = L.map('map').setView(trinCoords, 14);
+
+      var baselayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+        maxZoom: 18, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;\
+        <a href="https://carto.com/attribution">CARTO</a>'
+      }).addTo(map);
+
+      var markers = [];
+
+      map.on('click', function(e) {
+        if (markers.length == 5) return;
+
+        markers.push(
+          L.marker(e.latlng)
+            .on('click', function() {
+              for (i in markers) {
+                if (e.latlng.lat == markers[i]._latlng.lat && e.latlng.lng == markers[i]._latlng.lng) {
+                  markers.splice(i, 1);
+                  map.removeLayer(this);
+                }
+              }
+            })
+            .addTo(map)
+        );
+      });
+
+      $('#gform').submit(function() {
+        $(this).append('<input type="hidden" name="id" value="' + $.urlParam('id') + '">');
+        for (i = 0; i < markers.length; i++) {
+          $(this).append('<input type="hidden" name="place' + i + '" value="' + markers[i]._latlng.lat + ',' + markers[i]._latlng.lng + '">');
+        }
+        return true;
+      });
+    </script>
+
+  </body>
+</html>
