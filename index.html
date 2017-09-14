@@ -15,6 +15,11 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.5/papaparse.min.js"></script>
 
+    <!-- style sheet for mapzen.js -->
+    <link rel="stylesheet" href="https://mapzen.com/js/mapzen.css">
+    <!-- latest minified version of mapzen.js -->
+    <script src="https://mapzen.com/js/mapzen.min.js"></script>
+
     <style>
       html, body {
         margin: 0;
@@ -64,6 +69,13 @@
       var baselayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
         maxZoom: 18, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;\
         <a href="https://carto.com/attribution">CARTO</a>'
+      }).addTo(map);
+
+
+      var geocoder = L.Mapzen.geocoder('search-jBPBt5y', {
+        position: 'topright',
+        expanded: true,
+        fullWidth: false
       }).addTo(map);
 
       var markers = [];
