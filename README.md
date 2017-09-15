@@ -1,3 +1,5 @@
 # map-add-5-points
 
 https://action-lab.github.io/map-add-5-points/?id=123
+
+Inspired by https://github.com/dwyl/html-form-send-email-via-google-script-without-server
