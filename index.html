@@ -33,7 +33,7 @@
       #gform {
         position: absolute;
         bottom: 40px;
-        left: calc(50% - 30px);
+        left: calc(50% - 50px);
         z-index: 999;
         display: block;
       }
@@ -44,6 +44,7 @@
         color: white;
         padding: 10px;
         cursor: pointer;
+        border-radius: 5px;
       }
     </style>
   </head>
@@ -75,7 +76,8 @@
       var geocoder = L.Mapzen.geocoder('search-jBPBt5y', {
         position: 'topright',
         expanded: true,
-        fullWidth: false
+        fullWidth: false,
+        markers: {icon: L.icon({iconUrl: 'marker.png', iconSize: [45,45], iconAnchor: [22, 45], popupAnchor: [0, -40]}) },
       }).addTo(map);
 
       var markers = [];
