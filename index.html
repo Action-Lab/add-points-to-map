@@ -29,15 +29,21 @@
       #map {
         width: 100vw;
         height: 100vh;
+        visibility: hidden;
       }
       #gform {
         position: absolute;
-        bottom: 40px;
-        left: calc(50% - 50px);
+        width: 400px;
+        top: 0;
+        left: calc(50% - 240px);
         z-index: 999;
         display: block;
       }
-      #gform input {
+      #gform label, #gform input {
+        font-size: 1.2em;
+        line-height: 1.4em;
+      }
+      #gform input[type="submit"] {
         font-size: 35px;
         background: blue;
         border: 0;
@@ -45,6 +51,19 @@
         padding: 10px;
         cursor: pointer;
         border-radius: 5px;
+        z-index: 999;
+        margin-left: 200px;
+        visibility: hidden;
+      }
+
+      #page1 {
+        margin: 40px;
+        width: 400px;
+        left: calc(50% + 200px);
+      }
+
+      .leaflet-popup-content {
+        font-size: 1.5em;
       }
     </style>
   </head>
@@ -54,10 +73,52 @@
     <div id="map"></div>
 
     <form id="gform" method="POST" action="https://script.google.com/macros/s/AKfycbwJV4fQJ6Z5hxjT9p6tZscaEUIAoCbqp4Puirc-aTDA60BqANr4/exec">
+      <div id="page1">
+        <p>
+          Are you willing to be interviewed for 20-30 minutes to learn
+          more about your perceptions and experiences of Trinity
+          and Hartford? (We’ll buy you a beverage or treat to compensate
+          you for your time.)
+        </p>
+        <p>
+          The entire process is voluntary and
+          confidential, and you can stop at any time. If you agree to
+          participate, enter your information below so that
+          one of our student researchers can contact you
+          to set up a mutually convenient time and place for an interview:
+        </p>
+        <label>First name: <input type="text" name="name"></label>
+        <br>
+        <label>Phone #: <input type="text" name="phone"></label>
+        <br><br>
+        <label><input type="radio" name="agree" value="yes"> I agree to participate</label>
+        <br>
+        <label><input type="radio" name="agree" value="no"> I do not wish to be interviewed </label>
+      </div>
       <input type="submit" value="Submit">
     </form>
 
     <script>
+
+      $('input[name="agree"]').change(function() {
+        var name = $('input[name="name"]').val();
+        var phone = $('input[name="phone"]').val();
+
+        if (phone.length < 10 || name.length < 2) {
+          this.checked = false;
+          alert('Please, fill in your name and phone number first.');
+        } else {
+          $('#page1').css('display', 'none');
+          $('#map').css('visibility', 'visible');
+          $('#gform').css({
+              top: '100vh',
+              marginTop: '-85px'
+          });
+          $('input[type="submit"]').css({
+              visibility: 'visible',
+          });
+        }
+      });
 
       $.urlParam = function(name){
       	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -67,11 +128,14 @@
       var trinCoords = [41.7479, -72.6903];
       var map = L.map('map').setView(trinCoords, 14);
 
-      var baselayer = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-        maxZoom: 18, attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy;\
-        <a href="https://carto.com/attribution">CARTO</a>'
-      }).addTo(map);
+      var baseLayer = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg');
+      baseLayer.addTo(map);
 
+      var popup = L.popup()
+          .setLatLng([41.7439, -72.6903]) // slightly below Trinity
+          .setContent("<p>Show up to 5 places you have visited in the Hartford area.</p>\
+            <p>Click on the map to leave a marker. You can use the Search box to find places.</p> <p>Note that only the blue markers count!</p>")
+          .openOn(map);
 
       var geocoder = L.Mapzen.geocoder('search-jBPBt5y', {
         position: 'topright',
