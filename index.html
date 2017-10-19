@@ -131,11 +131,20 @@
       var baseLayer = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg');
       baseLayer.addTo(map);
 
+<<<<<<< HEAD
       var popup = L.popup()
           .setLatLng([41.7439, -72.6903]) // slightly below Trinity
           .setContent("<p>Show up to 5 places you have visited in the Hartford area.</p>\
             <p>Click on the map to leave a marker. You can use the Search box to find places.</p> <p>Note that only the blue markers count!</p>")
           .openOn(map);
+=======
+      var trinity = L.marker(trinCoords, {
+        icon: L.icon({
+          iconUrl: 'trinity.png',
+          iconSize: [48, 48]
+        })
+      }).addTo(map);
+>>>>>>> 0c5f780732c003a0fa9792ae06e5dd3b276524d6
 
       var geocoder = L.Mapzen.geocoder('search-jBPBt5y', {
         position: 'topright',
