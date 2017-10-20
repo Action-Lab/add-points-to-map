@@ -35,13 +35,13 @@
         position: absolute;
         width: 400px;
         top: 0;
-        left: calc(50% - 240px);
+        left: calc(50% - 200px);
         z-index: 999;
         display: block;
       }
       #gform label, #gform input {
-        font-size: 1.2em;
-        line-height: 1.4em;
+        font-size: 1.1em;
+        line-height: 1.2em;
       }
       #gform input[type="submit"] {
         font-size: 35px;
@@ -53,17 +53,37 @@
         border-radius: 5px;
         z-index: 999;
         visibility: hidden;
+        width: 200px;
+        margin-left: 100px;
       }
 
       #page1 {
-        margin: 40px;
-        width: 400px;
+        margin-top: 40px;
         left: calc(50% + 200px);
       }
 
       .leaflet-popup-content {
-        font-size: 1.5em;
+        font-size: 1.3em;
       }
+
+      .leaflet-popup {
+        width: 300px;
+      }
+
+      @media screen and (max-device-width: 480px) and (orientation: portrait) {
+        #gform {
+          width: 90vw;
+          left: 5vw;
+        }
+        #gform input[type="submit"] {
+          width: 100%;
+          margin-left: 0;
+        }
+        #page1 {
+          width: 100%;
+        }
+      }
+
     </style>
   </head>
 
@@ -89,21 +109,19 @@
         <label>First name: <input type="text" name="name"></label>
         <br>
         <label>Phone #: <input type="text" name="phone"></label>
-        <br><br>
-        <label><input type="radio" name="agree" value="yes"> I agree to participate</label>
-        <br>
-        <label><input type="radio" name="agree" value="no"> I do not wish to be interviewed </label>
+        <br><br><br>
+        <input type="button" name="agree" value="I agree to participate">
       </div>
       <input type="submit" value="Submit">
     </form>
 
     <script>
 
-      $('input[name="agree"]').change(function() {
+      $('input[name="agree"]').click(function() {
         var name = $('input[name="name"]').val();
         var phone = $('input[name="phone"]').val();
 
-        if (1 > 2) { //phone.length < 10 || name.length < 2) {
+        if (phone.length < 10 || name.length < 2) {
           this.checked = false;
           alert('Please, fill in your name and phone number first.');
         } else {
@@ -112,9 +130,7 @@
           $('#gform').css({
               top: '100vh',
               marginTop: '-80px',
-              marginLeft: '170px',
-              height: 0,
-              width: 0
+              height: 0
           });
           $('input[type="submit"]').css({
               visibility: 'visible',
@@ -128,7 +144,7 @@
       }
 
       var trinCoords = [41.7479, -72.6903];
-      var map = L.map('map').setView(trinCoords, 14);
+      var map = L.map('map', {zoomControl: false}).setView(trinCoords, 14);
 
       var baseLayer = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg');
       baseLayer.addTo(map);
@@ -147,11 +163,13 @@
       }).addTo(map);
 
       var geocoder = L.Mapzen.geocoder('search-jBPBt5y', {
-        position: 'topright',
+        position: 'topleft',
         expanded: true,
         fullWidth: false,
         markers: {icon: L.icon({iconUrl: 'marker.png', iconSize: [45,45], iconAnchor: [22, 45], popupAnchor: [0, -40]}) },
       }).addTo(map);
+
+      L.control.zoom({position: 'topleft'}).addTo(map);
 
       var markers = [];
 
