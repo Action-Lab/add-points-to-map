@@ -52,7 +52,6 @@
         cursor: pointer;
         border-radius: 5px;
         z-index: 999;
-        margin-left: 200px;
         visibility: hidden;
       }
 
@@ -104,7 +103,7 @@
         var name = $('input[name="name"]').val();
         var phone = $('input[name="phone"]').val();
 
-        if (phone.length < 10 || name.length < 2) {
+        if (1 > 2) { //phone.length < 10 || name.length < 2) {
           this.checked = false;
           alert('Please, fill in your name and phone number first.');
         } else {
@@ -112,7 +111,10 @@
           $('#map').css('visibility', 'visible');
           $('#gform').css({
               top: '100vh',
-              marginTop: '-85px'
+              marginTop: '-80px',
+              marginLeft: '170px',
+              height: 0,
+              width: 0
           });
           $('input[type="submit"]').css({
               visibility: 'visible',
