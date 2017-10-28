@@ -91,7 +91,7 @@
 
     <div id="map"></div>
 
-    <form id="gform" method="POST" action="https://script.google.com/macros/s/AKfycbwJV4fQJ6Z5hxjT9p6tZscaEUIAoCbqp4Puirc-aTDA60BqANr4/exec">
+    <form id="gform" method="POST" action="https://script.google.com/macros/s/AKfycbwJV4fQJ6Z5hxjT9p6tZscaEUIAoCbqp4Puirc-aTDA60BqANr4/exec" target="hidden-form">
       <div id="page1">
         <p>
           Are you willing to be interviewed for 20-30 minutes to learn
@@ -110,10 +110,12 @@
         <br>
         <label>Phone #: <input type="text" name="phone"></label>
         <br><br><br>
-        <input type="button" name="agree" value="I agree to participate">
+        <input type="button" id="agree" name="agree" value="I agree to participate">
       </div>
       <input type="submit" value="Submit">
     </form>
+
+    <iframe style="display:none" name="hidden-form"></iframe>
 
     <script>
 
@@ -125,6 +127,9 @@
           this.checked = false;
           alert('Please, fill in your name and phone number first.');
         } else {
+          $('#gform').submit();
+          $('#gform').attr('target', '');
+
           $('#page1').css('display', 'none');
           $('#map').css('visibility', 'visible');
           $('#gform').css({
@@ -138,7 +143,7 @@
         }
       });
 
-      $.urlParam = function(name){
+      $.urlParam = function(name) {
       	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
       	return results[1] || 0;
       }
@@ -197,6 +202,7 @@
         }
         return true;
       });
+
     </script>
 
   </body>
