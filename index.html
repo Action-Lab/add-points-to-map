@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Add Points</title>
+    <title>Add Points to Map</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
@@ -96,7 +96,7 @@
         <p>
           Are you willing to be interviewed for 20-30 minutes to learn
           more about your perceptions and experiences of Trinity
-          and Hartford? (We’ll buy you a beverage or treat to compensate
+          and Hartford? (We’ll buy you a beverage or pastry to compensate
           you for your time.)
         </p>
         <p>
@@ -125,7 +125,7 @@
 
         if (phone.length < 10 || name.length < 2) {
           this.checked = false;
-          alert('Please, fill in your name and phone number first.');
+          alert('Please insert your name and a 10-digit phone number');
         } else {
           $('#gform').submit();
           $('#gform').attr('target', '');
@@ -156,8 +156,8 @@
 
       var popup = L.popup()
           .setLatLng([41.7439, -72.6903]) // slightly below Trinity
-          .setContent("<p>Show up to 5 places you have visited in the Hartford area.</p>\
-            <p>Click on the map to leave a marker. You can use the Search box to find places.</p> <p>Note that only the blue markers count!</p>")
+          .setContent("<p>Click on the map to show up to 5 places you have visited in the Hartford area since arriving at Trinity.</p>\
+                      Explore the map or use the search box to find locations. Only blue markers count!</p>")
           .openOn(map);
 
       var trinity = L.marker(trinCoords, {
