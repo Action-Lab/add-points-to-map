@@ -151,7 +151,7 @@
       var trinCoords = [41.7479, -72.6903];
       var map = L.map('map', {zoomControl: false}).setView(trinCoords, 14);
 
-      var baseLayer = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.jpg');
+      var baseLayer = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png');
       baseLayer.addTo(map);
 
       var popup = L.popup()
